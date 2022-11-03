@@ -8,21 +8,22 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-mongoose.connect("mongodb+srv://functionup-cohort:G0Loxqc9wFEGyEeJ@cluster0.rzotr.mongodb.net/Pritesh8769811-DB?retryWrites=true&w=majority", {
+mongoose.connect("mongodb+srv://jagriti:Jaggu123@cluster0.nf3nfa7.mongodb.net/jaggu", {
+
     useNewUrlParser: true
 })
 .then( () => console.log("MongoDb is connected"))
 .catch ( err => console.log(err) )
 
 // Move around the following block and see how its order impacts what gets called first
-app.use (
-    function (req, res, next) {
-        console.log ("inside GLOBAL MW");
-        next()
+//app.use (
+   // function (req, res, next) {
+     //   console.log ("inside GLOBAL MW");
+       // next()
         // What happens if we send a response instead of the next() call ?
         //res.send({msg:"done"})
-  }
-);
+ // }
+//);
 
 app.use('/', route);
 
