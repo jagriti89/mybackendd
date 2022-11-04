@@ -16,7 +16,9 @@ const orderSchema = new mongoose.Schema( {
         required:true,
         ref:"user"
     },
-    amount:Number,
+    amount:{
+        type:Number,
+        required:true},
     isfreeAppUser:Boolean,
 	date:String
 },{ timestamps: true });

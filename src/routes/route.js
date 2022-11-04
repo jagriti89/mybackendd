@@ -16,12 +16,11 @@ router.get("/test-me", function (req, res) {
  //   res.send("Ending the cycle")
 //}  )
 router.post("/createproduct",productController.createproduct)
-router.get("/getproduct",productController.getproduct)
+
 router.post("/createorder",commonMW.headerCheck,orderController.orderUser)
-router.get("/getorder",orderController.getorder)
 
 router.post("/createUser",commonMW.headerCheck,UserController.createUser)
-router.get("/getUser",UserController.getUser)
+
 //router.get("/basicRoute", commonMW.mid1, commonMW.mid2, commonMW.mid3, commonMW.mid4, UserController.basicCode)
 
 module.exports = router;

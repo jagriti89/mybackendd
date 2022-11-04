@@ -2,7 +2,9 @@ const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema( {
     name: String,
-	balance:Number, // Default balance at user registration is 100
+	balance:{
+        type:Number,
+        required:true}, // Default balance at user registration is 100
 	address:String,
 	age: Number,
     gender: {
