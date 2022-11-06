@@ -2,14 +2,12 @@ const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema( {
     name: String,
-	balance:{
-        type:Number,
-        required:true}, // Default balance at user registration is 100
+	balance:Number,
 	address:String,
 	age: Number,
     gender: {
         type: String,
-        enum: ["male", "female", "LGBTQ"] //"falana" will give an error
+        enum: ["male", "female", "other"] //"falana" will give an error
     },
     isfreeAppUser:{
 		type:Boolean,
@@ -17,7 +15,7 @@ const userSchema = new mongoose.Schema( {
     },
 }, { timestamps: true });
 
-module.exports = mongoose.model('User', userSchema) //users
+module.exports = mongoose.model('Use', userSchema) //users
 
 
 

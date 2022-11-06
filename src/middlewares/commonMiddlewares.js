@@ -26,14 +26,15 @@
 //}
 const headerCheck=function(req,res,next)
 {
-    let  header=req.headers["isfreeAppUser"];
+    let  header=req.headers["isfreeappuser"];
     if(header=="true" || header=="false"){
-        console.log("isfreeAppUser is present in headers",header)
+      //  console.log("isfreeAppUser is present in headers",header)
+         req.abc= header;
         next()
     }
     else
     {
-        console.log("isfreeAppUser is not present in headers ")
+        //console.log("isfreeAppUser is not present in headers ")
         res.send("isfreeAppUser is not present in headers")
     }
 }
