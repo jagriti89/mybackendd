@@ -1,0 +1,30 @@
+{
+  "name": "booksmanagement",
+  "version": "1.0.0",
+  "description": "Books Management using Node.js Express and MongoDB",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rupamgupta-github/booksManagement.git"
+  },
+  "keywords": [
+    "Node.js",
+    "MondoDb",
+    "and",
+    "Express"
+  ],
+  "author": "Jagriti Singh, Reddy Jyoti, Bhuvnesh indoriya, Rupam Gupta",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rupamgupta-github/booksManagement/issues"
+  },
+  "homepage": "https://github.com/rupamgupta-github/booksManagement#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.7.4"
+  }
+}
