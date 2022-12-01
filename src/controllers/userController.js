@@ -39,7 +39,7 @@ const createUser = async function (req, res) {
       if (!validator.isValidMobileNo(phone)) {
         return res
           .status(400)
-          .send({ status: false, msg: " phone no. is required" });
+          .send({ status: false, msg: " phone no. Should Have 10 Digit Only" });
       }
 
       if (phone.length < 10 || phone.length > 10) {
@@ -87,6 +87,16 @@ const createUser = async function (req, res) {
           msg: "the length of password must be min:- 8 or max: 15",
         });
       }
+
+      if (!validator.isValidPassword(password)) {
+        return res
+          .status(400)
+          .send({
+            status: false,
+            msg: " Password contain altleast 1 Special Character",
+          });
+      }
+
       let userdata = await userModel.create(data);
       return res.status(201).send({
         status: true,
@@ -135,7 +145,21 @@ const loginUser = async function (req, res) {
         message: "Password is mandatory",
       });
     }
+    if (password.length < 8 || password.length > 15) {
+      return res.status(400).send({
+        status: false,
+        msg: "the length of password must be min:- 8 or max: 15",
+      });
+    }
 
+    if (!validator.isValidPassword(password)) {
+      return res
+        .status(400)
+        .send({
+          status: false,
+          msg: " Password contain altleast 1 Special Character",
+        });
+    }
     let findUser = await userModel.findOne({ email });
     if (!findUser)
       return res

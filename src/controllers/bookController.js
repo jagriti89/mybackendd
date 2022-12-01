@@ -67,7 +67,13 @@ const createBooks = async (req, res) => {
     if (!subcategory) {
       return res
         .status(400)
-        .send({ status: false, message: "subcategory is can not be empty" });
+        .send({ status: false, message: "subcategory is Mandatory" });
+    }
+
+ if (!releasedAt) {
+      return res
+        .status(400)
+        .send({ status: false, message: "releasedAt is Mandatory" });
     }
 
     if (!validator.isValidDate(releasedAt)) {
