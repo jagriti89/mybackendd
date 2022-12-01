@@ -48,16 +48,19 @@ const createReview = async function (req, res) {
         .send({ status: false, message: "please provide a valid rating" });
     }
 
-    if (!validator.isValid(review)) {
-      return res
-        .status(400)
-        .send({ status: false, message: "review is a required field" });
+    if (review) {
+      if (!validator.isValid(review)) {
+        return res
+          .status(400)
+          .send({ status: false, message: "review is a required field" });
+      }
     }
-
-    if (!validator.isValid(reviewedBy)) {
-      return res
-        .status(400)
-        .send({ status: false, message: "review is a required field" });
+    if (reviewedBy) {
+      if (!validator.isValid(reviewedBy)) {
+        return res
+          .status(400)
+          .send({ status: false, message: "reviewBy is a required field" });
+      }
     }
 
     data.bookId = bookId;
@@ -74,27 +77,26 @@ const createReview = async function (req, res) {
 
     let reviewCreated = await reviewModel.create(data);
 
-    // Getting new Review data
     const reviewList = await reviewModel
       .findOne({ _id: reviewCreated._id })
       .select({ isDeleted: 0, createdAt: 0, updatedAt: 0, __v: 0 });
 
-    // Updating the review count
     const ReviewCount = await bookModel
       .findOneAndUpdate(
         { _id: bookId },
         { $inc: { reviews: +1 } },
         { new: true }
       )
-      .select({ __v: 0 });
+      .select({ __v: 0 })
+      .lean();
 
     // reviews list
-    const WithReview = ReviewCount.toObject();
+    const WithReview = ReviewCount;
     WithReview["reviewsData"] = reviewList;
 
     return res.status(201).send({
       status: true,
-      messege: " Created Review Successful",
+      message: " Review creation is successful",
       data: WithReview,
     });
   } catch (err) {
@@ -179,13 +181,11 @@ const updateReview = async function (req, res) {
     const updatedReview = findBook.toObject();
     updatedReview["reviewsData"] = updateReview;
 
-    return res
-      .status(200)
-      .send({
-        status: true,
-        messege: " updated Review Successful",
-        data: updatedReview,
-      });
+    return res.status(200).send({
+      status: true,
+      messege: " updated Review Successful",
+      message: updatedReview,
+    });
   } catch (err) {
     return res.status(500).send({ status: false, message: err.message });
   }

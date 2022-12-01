@@ -43,12 +43,10 @@ const createUser = async function (req, res) {
       }
 
       if (phone.length < 10 || phone.length > 10) {
-        return res
-          .status(400)
-          .send({
-            status: false,
-            msg: "length of phone no. should be 10 digits",
-          });
+        return res.status(400).send({
+          status: false,
+          msg: "length of phone no. should be 10 digits",
+        });
       }
 
       const isMobileAlreadyUsed = await userModel.findOne({ phone });
@@ -84,21 +82,17 @@ const createUser = async function (req, res) {
       }
 
       if (password.length < 8 || password.length > 15) {
-        return res
-          .status(400)
-          .send({
-            status: false,
-            msg: "the length of password must be min:- 8 or max: 15",
-          });
+        return res.status(400).send({
+          status: false,
+          msg: "the length of password must be min:- 8 or max: 15",
+        });
       }
       let userdata = await userModel.create(data);
-      return res
-        .status(201)
-        .send({
-          status: true,
-          msg: "data succesfully created",
-          data: userdata,
-        });
+      return res.status(201).send({
+        status: true,
+        msg: "data succesfully created",
+        data: userdata,
+      });
     } else {
       return res
         .status(400)

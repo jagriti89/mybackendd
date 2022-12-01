@@ -187,7 +187,7 @@ const getBookById = async function (req, res) {
 
     return res
       .status(200)
-      .send({ status: false, message: "Book details", data: findBook });
+      .json({ status: true, message: "Book details is successful", data: findBook });
   } catch (err) {
     return res.status(500).send(err.message);
   }
@@ -207,7 +207,7 @@ const updateBook = async function (req, res) {
         .send({ status: false, message: "this is not a valid bookId " });
     }
 
-    let checkBook = await bookModel.findOne({ _id: bookId});
+    let checkBook = await bookModel.findOne({ _id: bookId });
 
     if (!validator.isValid(checkBook)) {
       return res
@@ -221,26 +221,21 @@ const updateBook = async function (req, res) {
         .send({ status: false, message: "this book has been deleted by you" });
     }
 
-    if (checkBook.userId != userId) {
-      return res.status(401).send({
-        status: false,
-        message: "This book doesn't belong to you, hence you can't update it",
-      });
-    }
+    if (userId) {
+      if (!validator.isValidObjectId(userId)) {
+        return res
+          .status(400)
+          .send({ status: false, message: "this is not a valid authorId " });
+      }
 
-    if (!validator.isValidObjectId(userId)) {
-      return res
-        .status(400)
-        .send({ status: false, message: "this is not a valid authorId " });
-    }
+      let findUser = await userModel.findOne({ _id: userId });
 
-    let findUser = await userModel.findOne({ _id: userId });
-
-    if (!findUser) {
-      return res.status(404).send({
-        status: false,
-        message: "a user with this id does not exists",
-      });
+      if (!findUser) {
+        return res.status(404).send({
+          status: false,
+          message: "a user with this id does not exists",
+        });
+      }
     }
 
     const { title, releasedAt, ISBN, excerpt } = data;
@@ -255,16 +250,16 @@ const updateBook = async function (req, res) {
       }
     }
 
-    if(ISBN){
+    if (ISBN) {
       if (!validator.isValidISBN(ISBN)) {
         return res.status(400).send({
           status: false,
           message: "Please provide a valid isbn number",
         });
       }
-  
+
       let isUniqueISBN = await bookModel.findOne({ ISBN: ISBN });
-  
+
       if (isUniqueISBN) {
         return res
           .status(400)
@@ -272,7 +267,7 @@ const updateBook = async function (req, res) {
       }
     }
 
-    if(releasedAt){
+    if (releasedAt) {
       if (!validator.isValidDate(releasedAt)) {
         return res
           .status(400)
@@ -280,7 +275,7 @@ const updateBook = async function (req, res) {
       }
     }
 
-    if(excerpt){
+    if (excerpt) {
       if (!validator.isValid(excerpt)) {
         return res
           .status(400)

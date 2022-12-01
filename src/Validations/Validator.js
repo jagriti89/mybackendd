@@ -34,15 +34,14 @@ const isValidEmail = function (email) {
 
 const isValidPassword = function (password) {
   const passwordRegex =
-  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/
+    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
   return passwordRegex.test(password);
 };
 
 //_________ Validations : ISBN  ________________
 
 const isValidISBN = function (ISBN) {
-  const isbnRegex =
-  /^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$/g;
+  const isbnRegex = /^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$/g;
   return isbnRegex.test(ISBN);
 };
 
@@ -85,4 +84,4 @@ module.exports = {
   isValidName,
   isValidPassword,
   isValidObjectId,
-}
+};
