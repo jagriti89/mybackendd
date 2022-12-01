@@ -9,6 +9,12 @@ const isValidName = function (name) {
   return regexName.test(name);
 };
 
+//_________ Validations : Title  ________________
+
+const isValidTitle = function (title) {
+  const regexTitle = /^[a-zA-Z]+$/;
+  return regexTitle.test(title);
+};
 //_________ Validations : Mobile No ________________
 
 const isValidMobileNo = function (phone) {
@@ -28,7 +34,7 @@ const isValidEmail = function (email) {
 
 const isValidPassword = function (password) {
   const passwordRegex =
-    /^(?=.[A-Za-z])(?=.\d)(?=.[@$!%#?&])[A-Za-z\d@$!%*#?&]{8,15}$/;
+  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/
   return passwordRegex.test(password);
 };
 
@@ -60,11 +66,19 @@ const isValid = function (value) {
   if (typeof value == "String" && value.trim().length === 0) return false;
   return true;
 };
+
+//_________________________________________Rating validation_________________________________________
+
+// const isValidRating = function (rating) {
+//   const ratingRegex = /^[\1-5]*$/
+//   return ratingRegex.test(rating)
+// }
 //_________ Export : Modules  ________________
 
 module.exports = {
   isValid,
   isValidISBN,
+  isValidTitle,
   isValidDate,
   isValidMobileNo,
   isValidEmail,

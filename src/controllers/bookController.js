@@ -74,7 +74,7 @@ const createBooks = async (req, res) => {
       return res
         .status(400)
         .send({ status: false, message: "Date format is not valid" });
-    } //'2000-07-20'
+    }
 
     let saveBook = await bookModel.create(bookData);
     return res.status(201).send({
@@ -90,47 +90,39 @@ const createBooks = async (req, res) => {
 const getBooks = async (req, res) => {
   try {
     let data = req.query;
-    let { userId, category, subcategory } = data;
     let filter = {
-      isDeleted: false,
+      isdeleted: false,
       ...data,
     };
 
-    if (!validator.isValidObjectId(userId)) {
-      return res
-        .status(400)
-        .send({ status: false, message: "this is not a valid user Id" });
+    const { category, subcategory, authorId } = data;
+    if (authorId) {
+      let verifyAuthorId = await userModel.find({ authorId: authorId });
+      if (verifyAuthorId.length == 0) {
+        return res
+          .status(400)
+          .send({ status: false, msg: "No blogs in this AuthorId exist" });
+      }
     }
-
-    let findbyUserId = await bookModel.findOne({ userId });
-    if (!findbyUserId) {
-      return res
-        .status(404)
-        .send({ status: false, message: "no books with this userId exists" });
-    }
-
     if (category) {
-      let findbyCategory = await bookModel.findOne({ category: category });
-      if (!findbyCategory) {
-        return res.status(404).send({
-          status: false,
-          message: "no books with this category exists",
-        });
+      let verifyCategory = await bookModel.find({ category: category });
+      if (verifyCategory.length == 0) {
+        return res
+          .status(400)
+          .send({ status: false, msg: "No blogs in this category exist" });
       }
     }
 
     if (subcategory) {
-      let findbysubcategory = await bookModel.findOne({
+      let verifySubcategory = await bookModel.find({
         subcategory: subcategory,
       });
-      if (!findbysubcategory) {
-        return res.status(404).send({
-          status: false,
-          message: "no books with this subcategory exists",
-        });
+      if (!verifySubcategory) {
+        return res
+          .status(400)
+          .send({ status: false, msg: "No blogs in this Subcategory exist" });
       }
     }
-
     let findBook = await bookModel
       .find(filter)
       .select({
@@ -205,6 +197,7 @@ const getBookById = async function (req, res) {
 
 const updateBook = async function (req, res) {
   try {
+    let data = req.body;
     let bookId = req.params.bookId;
     let userId = req.query.userId;
 
@@ -214,9 +207,9 @@ const updateBook = async function (req, res) {
         .send({ status: false, message: "this is not a valid bookId " });
     }
 
-    let checkBook = await bookModel.findOne({ _id: bookId });
+    let checkBook = await bookModel.findOne({ _id: bookId});
 
-    if (!checkBook) {
+    if (!validator.isValid(checkBook)) {
       return res
         .status(404)
         .send({ status: false, message: "No book with this Id exists" });
@@ -250,8 +243,7 @@ const updateBook = async function (req, res) {
       });
     }
 
-    let data = req.body;
-    let { title, releasedAt, ISBN, excerpt } = data;
+    const { title, releasedAt, ISBN, excerpt } = data;
 
     if (title) {
       let findTitle = await bookModel.findOne({ title: title });
@@ -263,25 +255,37 @@ const updateBook = async function (req, res) {
       }
     }
 
-    if (!validator.isValidISBN(ISBN)) {
-      return res.status(400).send({
-        status: false,
-        message: "Please provide a valid isbn number",
-      });
+    if(ISBN){
+      if (!validator.isValidISBN(ISBN)) {
+        return res.status(400).send({
+          status: false,
+          message: "Please provide a valid isbn number",
+        });
+      }
+  
+      let isUniqueISBN = await bookModel.findOne({ ISBN: ISBN });
+  
+      if (isUniqueISBN) {
+        return res
+          .status(400)
+          .send({ status: false, message: "This ISBN is already being used" });
+      }
     }
 
-    let isUniqueISBN = await bookModel.findOne({ ISBN: ISBN });
-
-    if (isUniqueISBN) {
-      return res
-        .status(400)
-        .send({ status: false, message: "This ISBN is already being used" });
+    if(releasedAt){
+      if (!validator.isValidDate(releasedAt)) {
+        return res
+          .status(400)
+          .send({ status: false, message: "Date format is not valid" });
+      }
     }
 
-    if (!validator.isValidDate(datePattern)) {
-      return res
-        .status(400)
-        .send({ status: false, message: "Date format is not valid" });
+    if(excerpt){
+      if (!validator.isValid(excerpt)) {
+        return res
+          .status(400)
+          .send({ status: false, message: "Excerpt is Mandatory" });
+      }
     }
 
     let findBook = await bookModel.findOneAndUpdate(

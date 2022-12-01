@@ -7,7 +7,7 @@ const validator = require("../Validations/Validator");
 
 const authentication = async function (req, res, next) {
   try {
-    token = req.headers["x-api-key"];
+   let token = req.headers["x-api-key"];
     if (!token) {
       return res
         .status(400)
@@ -57,40 +57,4 @@ const Authorisation = async function (req, res, next) {
   }
 };
 
-//________________________________|| AUTHORIZATION FOR CREATE BOOK ||________________________________
-
-const bookAuthorization = async function (req, res, next) {
-  try {
-    let userId = req.body.userId;
-
-    if (!userId) {
-      return res
-        .status(400)
-        .send({ status: false, message: " userId is required" });
-    }
-
-    if (!validator.isValidObjectId(userId)) {
-      return res
-        .status(400)
-        .send({ status: false, msg: "please enter valid userId" });
-    }
-
-    let CheckingUserId = await userModel.findOne({ _id: userId });
-    if (!CheckingUserId) {
-      return res
-        .status(404)
-        .send({ status: false, message: "this userId is not found" });
-    }
-
-    if (userId != req.decode.userId) {
-      return res
-        .status(403)
-        .send({ status: false, message: "you are not Authorized person" });
-    }
-    next();
-  } catch (error) {
-    return res.status(500).send({ status: false, message: error.message });
-  }
-};
-
-module.exports = { authentication, Authorisation, bookAuthorization };
+module.exports = { authentication, Authorisation };

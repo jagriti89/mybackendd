@@ -18,7 +18,7 @@ router.post("/login", userController.loginUser)
 
 // ________________________________|| BOOK ||________________________________
 
-router.post("/books", authentication,bookAuthorization, bookController.createBooks)
+router.post("/books", authentication,bookController.createBooks)
 router.get("/books", authentication, bookController.getBooks)
 router.get("/books/:bookId", authentication, bookController.getBookById)
 router.put("/books/:bookId",authentication, Authorisation, bookController.updateBook)

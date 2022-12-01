@@ -129,7 +129,12 @@ const loginUser = async function (req, res) {
         message: "EmailId is mandatory",
       });
     }
-
+    if (!validator.isValidEmail(email)) {
+      return res.status(400).send({
+        status: false,
+        message: "EmailId is mandatory",
+      });
+    }
     if (!password) {
       return res.status(400).send({
         status: false,
@@ -158,7 +163,7 @@ const loginUser = async function (req, res) {
     };
 
     let token = jwt.sign(payload, "Group7", {
-      expiresIn: "30m",
+      expiresIn: "10s",
     });
 
     res.setHeader("x-auth-key", token);
