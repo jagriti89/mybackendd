@@ -88,15 +88,6 @@ const createUser = async function (req, res) {
         });
       }
 
-      if (!validator.isValidPassword(password)) {
-        return res
-          .status(400)
-          .send({
-            status: false,
-            msg: " Password contain altleast 1 Special Character",
-          });
-      }
-
       let userdata = await userModel.create(data);
       return res.status(201).send({
         status: true,
@@ -136,7 +127,7 @@ const loginUser = async function (req, res) {
     if (!validator.isValidEmail(email)) {
       return res.status(400).send({
         status: false,
-        message: "EmailId is mandatory",
+        message: "EmailId should be Valid",
       });
     }
     if (!password) {
@@ -152,14 +143,6 @@ const loginUser = async function (req, res) {
       });
     }
 
-    if (!validator.isValidPassword(password)) {
-      return res
-        .status(400)
-        .send({
-          status: false,
-          msg: " Password contain altleast 1 Special Character",
-        });
-    }
     let findUser = await userModel.findOne({ email });
     if (!findUser)
       return res
@@ -181,7 +164,7 @@ const loginUser = async function (req, res) {
     };
 
     let token = jwt.sign(payload, "Group7", {
-      expiresIn: "10s",
+      expiresIn: "30s",
     });
 
     res.setHeader("x-auth-key", token);

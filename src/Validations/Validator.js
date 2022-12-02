@@ -30,14 +30,6 @@ const isValidEmail = function (email) {
   return regexEmail.test(email);
 };
 
-//_________ Validations : Password  ________________
-
-const isValidPassword = function (password) {
-  const passwordRegex =
-  /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,15}$/
-  return passwordRegex.test(password);
-};
-
 //_________ Validations : ISBN  ________________
 
 const isValidISBN = function (ISBN) {
@@ -66,12 +58,6 @@ const isValid = function (value) {
   return true;
 };
 
-//_________________________________________Rating validation_________________________________________
-
-// const isValidRating = function (rating) {
-//   const ratingRegex = /^[\1-5]*$/
-//   return ratingRegex.test(rating)
-// }
 //_________ Export : Modules  ________________
 
 module.exports = {

@@ -70,7 +70,7 @@ const createBooks = async (req, res) => {
         .send({ status: false, message: "subcategory is Mandatory" });
     }
 
- if (!releasedAt) {
+    if (!releasedAt) {
       return res
         .status(400)
         .send({ status: false, message: "releasedAt is Mandatory" });
@@ -193,7 +193,11 @@ const getBookById = async function (req, res) {
 
     return res
       .status(200)
-      .json({ status: true, message: "Book details is successful", data: findBook });
+      .json({
+        status: true,
+        message: "Book details is successful",
+        data: findBook,
+      });
   } catch (err) {
     return res.status(500).send(err.message);
   }

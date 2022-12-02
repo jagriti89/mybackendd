@@ -1,6 +1,5 @@
 const jwt = require("jsonwebtoken");
 const bookModel = require("../models/bookModel");
-const userModel = require("../models/userModel");
 const validator = require("../Validations/Validator");
 
 //________________________________|| AUTHENTICATION ||________________________________

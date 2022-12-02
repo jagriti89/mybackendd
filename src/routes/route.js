@@ -24,7 +24,12 @@ router.post("/login", userController.loginUser);
 
 router.post("/books", authentication, bookController.createBooks);
 router.get("/books", authentication, bookController.getBooks);
-router.get("/books/:bookId", authentication, bookController.getBookById);
+router.get(
+  "/books/:bookId",
+  authentication,
+  Authorisation,
+  bookController.getBookById
+);
 router.put(
   "/books/:bookId",
   authentication,
