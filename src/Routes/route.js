@@ -3,7 +3,7 @@ const { getBlockChain } = require('../Controllers/chainController');
 const router=express.Router();
 
 router.get("/",(req,res)=>{
-    console.log("This is Home Page of Programming Yatra")
+    res.status(200).json({success:"Welcome To Programming Yatra"})
 })
 
 router.get("/assets",getBlockChain)
